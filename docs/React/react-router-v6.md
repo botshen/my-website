@@ -8,7 +8,36 @@ sidebar_position: 1
 
 在routes.tsx中维护路由表：
 
-![image](https://cdn.staticaly.com/gh/botshen/image-hosting@master/20220503/image.42eavl3l1xa0.webp)
+```js
+├── src
+│   ├── App.tsx
+│   ├── assets
+│   │   ├── favicon.svg
+│   │   ├── icons
+│   │   │   ├── chart.svg
+│   │   │   ├── clock.svg
+│   │   │   ├── cloud.svg
+│   │   │   ├── mangosteen.svg
+│   │   │   └── pig.svg
+│   │   └── stylesheets
+│   │       ├── reset.scss
+│   │       └── var.scss
+│   ├── components
+│   │   ├── Button.tsx
+│   │   └── welcome
+│   │       ├── First.tsx
+│   │       ├── FirstActions.tsx
+│   │       ├── Forth.tsx
+│   │       ├── Second.tsx
+│   │       ├── Third.tsx
+│   │       ├── WelcomeLayout.tsx
+│   │       └── welcome.module.scss
+ // highlight-start
+│   ├── config
+│   │   └── routes.tsx
+// highlight-end
+
+```
 
 ```ts title="routes.tsx"
 import { Navigate } from "react-router-dom";
