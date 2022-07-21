@@ -1,0 +1,21 @@
+# 手写 Promise.all
+技术要点：
+1. 要在 Promise 上写而不是在原型上写
+1.  all 的参数（Promise 数组）和返回值（新 Promise 对象）
+1. 用数组来记录结果
+1. 只要有一个 reject 就整体 reject
+```javascript
+Promise.myAll = function(list){
+  const results = []
+  let count = 0
+    list.map((item, index)=> {
+      item.then(result=>{
+          results[index] = result
+          count += 1
+          if (count >= list.length) { resolve(results)}
+      }, reason => reject(reason) )
+    })
+  })
+}
+```
+

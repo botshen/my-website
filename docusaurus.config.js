@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: '沈鑫的个人网站',
-  tagline: 'React are cool',
+  tagline: 'React is cool',
   url: 'https://fastidious-meerkat-ec68b5.netlify.app/',
   baseUrl: '/',
   onBrokenLinks: 'throw',

@@ -1,0 +1,57 @@
+# 手写节流防抖
+- 节流-throttle
+- 防抖-debounce
+### 节流
+节流理解起来就是技能冷却中，比如我们打王者的时候，「闪现」是120s一次，当你用过「闪现」这个技能的时候，120s之内你是不能再次使用「闪现」的。
+```javascript
+// 节流就是「技能冷却中」
+const throttle = (fn, time) => {
+  let 冷却中 = false
+  return (...args) => {
+    if(冷却中) return
+    fn.call(undefined, ...args)
+    冷却中 = true
+    setTimeout(()=>{
+      冷却中 = false
+    }, time)
+  }
+}
+```
+```javascript
+const throttle = (f, time) => {
+  // 定义定时器
+  let timer = null
+  return (...args) => {
+    if(timer) {return}
+    f.call(undefined, ...args)
+    timer = setTimeout(()=>{
+      timer = null
+    }, time)
+  }
+}
+```
+使用方法：
+```javascript
+const f = throttle(()=>{console.log('hi')}, 3000)
+
+f() // 打印 hi
+f() // 技能冷却中
+```
+### 防抖
+防抖就是「回城被打断」
+```javascript
+const debounce = (fn, time) => {
+  let 回城计时器 = null
+  return (...args)=>{
+    if(回城计时器 !== null) {
+      clearTimeout(回城计时器) // 打断回城
+    }
+    // 重新回城
+    回城计时器 = setTimeout(()=>{
+      fn.call(undefined, ...args) // 回城后调用 fn
+      回城计时器 = null
+    }, time)
+  }
+}
+```
+
