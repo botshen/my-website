@@ -1,0 +1,107 @@
+# React 基础知识
+
+## 引入 React
+### cdn 引入
+就是通过在线的资源引入，只有在临时做demo的时候会这样做。
+在引入的时候会让你选择模块，有cjs和umd两种模块。
+- cjs是CommonJS模块，是Node.js支持的模块规范。
+- umd是Universal Module Definition模块，是统一模块定义兼容各种模块规范（含浏览器）。
+- 理论上优先使用umd，同时支持浏览器和node.js。
+- 最新的模块规范是使用import和export关键字。
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <div id="app"></div>
+// highlight-start
+    <script src="https://cdn.bootcss.com/react/16.10.2/umd/react.development.js"></script>
+    <script src="https://cdn.bootcss.com/react-dom/16.10.2/umd/react-dom.development.js"></script>
+// highlight-end
+    <script src="src/index.js"></script>
+  </body>
+</html>
+```
+### webpack 引入 React
+除了webpack， rollup 和 parcel 也支持这样的用法。
+但是不要这样引入 react，有脚手架就可以了。
+```shell
+npm install --save react react-dom
+import React from 'react';
+import ReactDOM from 'react-dom';
+```
+### CRA和vite
+CRA是create-react-app的简写，是一个简单的react项目构建工具。
+```shell
+npx create-react-app my-app
+cd my-app
+npm start
+```
+vite是最新的脚手架，也可以创建react项目
+```shell
+pnpm create vite my-react-app --template react
+```
+具体可以参考官方文档。
+
+## 普通代码和函数
+
+```js
+// 这是普通代码
+let b = 1 + a;
+// 这是函数
+let c = function() {
+  return 1 + a;
+}
+let b = c();
+```
+
+:::note
+普通代码立即求值，函数会等调用的时候再求值
+:::
+```js
+// 这是 React 元素
+App1 = React.createElement('div', null, n)
+// 这是 React 函数组件
+App2 = ()=> React.createElement('div', null, n)
+```
+下面是react的+1函数的代码
+```js
+const React = window.React;
+const ReactDOM = window.ReactDOM;
+
+let n = 0;
+const App = () =>
+  React.createElement("div", null, [
+    n,
+    React.createElement(
+      "button",
+      {
+        onClick: () => {
+          n += 1;
+          console.log(n); //这一句是精髓
+          ReactDOM.render(App(), document.querySelector("#app")); // 为什么还是不能重新渲染
+        }
+      },
+      "+1"
+    )
+  ]);
+
+ReactDOM.render(App(), document.querySelector("#app"));
+```
+但是这样的代码不易于理解，所以就有了jsx语法，他是js的扩展版,上面的createElement就是可以用下面的语法了
+```jsx
+<button onClick="add">+1</button>
+```
+### React 元素
+- createElement返回值element可以代表一个div
+- 但是这个div不是真实的DOM对象，我们一般叫做虚拟DOM。
+### ()=>React 元素
+- 返回element元素，可以代表一个 div
+- 这个函数可以多次执行，每次执行都会返回一个最新的虚拟 div
+- React 会对比虚拟DOM和真实DOM，如果有变化，就会局部更新。
+- 这种找不同的算法叫做DOM diff算法。
+

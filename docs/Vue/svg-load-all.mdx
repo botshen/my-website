@@ -1,0 +1,128 @@
+# 一次性加载所有 svg
+
+在项目中，当切换到指定页面的时候再请求svg，这样会导致页面卡顿，因为每次请求svg都会开启一个新的请求。如果用户网速很慢，那体验就会很差。
+
+如何在一开始的时候就加载所有的svg？
+
+使用雪碧图？已经过时了
+
+## 安装依赖
+```json
+{
+  "dependencies": {
+    "svgo": "2.8.0",
+    "svgstore": "3.0.1"
+  }
+}
+```
+## vite 插件
+现在的svg不需要使用img标签了
+
+我们需要自己写一个vite插件
+
+vite插件是运行在node上的，node不支持ts，所以需要配置tsconfig.node.json
+```js
+/* eslint-disable */
+import path from 'path'
+import fs from 'fs'
+import store from 'svgstore' // 用于制作 SVG Sprites
+import { optimize } from 'svgo' // 用于优化 SVG 文件
+
+export const svgstore = (options = {}) => {
+  const inputFolder = options.inputFolder || 'src/assets/icons';
+  return {
+    name: 'svgstore',
+    resolveId(id) {
+        // 为了绕过编辑器的报错
+      if (id === '@svgstore') {
+        return 'svg_bundle.js'
+      }
+    },
+    load(id) {
+      if (id === 'svg_bundle.js') {
+        const sprites = store(options);
+        const iconsDir = path.resolve(inputFolder);
+        for (const file of fs.readdirSync(iconsDir)) {
+          const filepath = path.join(iconsDir, file);
+          const svgid = path.parse(file).name
+          let code = fs.readFileSync(filepath, { encoding: 'utf-8' });
+          sprites.add(svgid, code)
+        }
+        const { data: code } = optimize(sprites.toString({ inline: options.inline }), {
+          plugins: [
+            'cleanupAttrs', 'removeDoctype', 'removeComments', 'removeTitle', 'removeDesc',
+            'removeEmptyAttrs',
+            { name: "removeAttrs", params: { attrs: "(data-name|data-xxx)" } }
+          ]
+        })
+        return `const div = document.createElement('div')
+div.innerHTML = \`${code}\`
+const svg = div.getElementsByTagName('svg')[0]
+if (svg) {
+  svg.style.position = 'absolute'
+  svg.style.width = 0
+  svg.style.height = 0
+  svg.style.overflow = 'hidden'
+  svg.setAttribute("aria-hidden", "true")
+}
+// listen dom ready event
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.body.firstChild) {
+    document.body.insertBefore(div, document.body.firstChild)
+  } else {
+    document.body.appendChild(div)
+  }
+})`
+      }
+    }
+  }
+}
+```
+```json title='tsconfig.node.json'
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "esnext",
+    "moduleResolution": "node"
+  },
+  "include": [
+    "vite.config.ts",
+    "src/vite_plugins/**/*",
+  ],
+}
+```
+## 使用方法
+```tsx title='main.ts'
+import s from './welcome.module.scss';
+import { FunctionalComponent } from 'vue';
+export const First: FunctionalComponent = () => {
+  return <div class={s.card}>
+// highlight-start
+    <svg>
+      <use xlinkHref='#pig'></use>
+    </svg>
+// highlight-end
+    <h2>会挣钱<br />还会省钱</h2>
+  </div>
+}
+
+First.displayName = 'First'
+
+```
+
+```ts
+import { routes } from './config/routes';
+import { createApp } from 'vue'
+import { App } from './App'
+import { createRouter } from 'vue-router'
+import { history } from './shared/history';
+// 在这里引入
+// highlight-start
+import '@svgstore';
+// highlight-end
+const router = createRouter({ history, routes })
+
+const app = createApp(App)
+app.use(router)
+app.mount('#app')
+```
