@@ -1,0 +1,15 @@
+# git patch 补丁
+
+功能：当需要把一个项目的某个提交迁移到另一个项目的时候，可以使用 git patch 命令。
+
+## 创建补丁
+```shell
+git format-patch -1 de631sc
+```
+## 使用补丁
+```shell
+git am < 0001.patch
+```
+
+
+
