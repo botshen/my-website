@@ -26,9 +26,17 @@ const config = {
     defaultLocale: 'zh-Hans',
     locales: ['zh-Hans'],
   },
-
+  plugins: ['@docusaurus/theme-live-codeblock'],
+  themeConfig: {
+    liveCodeBlock: {
+      /**
+       * 实时效果显示的位置，在编辑器上方还是下方。
+       * 可为："top" | "bottom"
+       */
+      playgroundPosition: 'bottom',
+    },
+  },
   themes: [
-    // ... Your other themes.
     [
       require.resolve("@easyops-cn/docusaurus-search-local"),
       {

@@ -1,6 +1,6 @@
 # vue 路由动画
 
-## vue3+tsx 路由动画
+## vue3 + tsx 路由动画
 
 - 使用 css-modules 和 vue-animate 实现路由动画
 
