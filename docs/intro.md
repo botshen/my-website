@@ -1,7 +1,13 @@
 ---
 sidebar_position: 1
+slug: /
+id: intro
+
 ---
 
-# Introduction
+# Welcome
 
-不写笔记的坏处是学完就忘，真的不想再学重复的内容了。。。
+# 学而不思则罔，思而不学则
+这是我的笔记站点
+
+博客站点[请点击](/blog)
