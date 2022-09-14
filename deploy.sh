@@ -1,4 +1,13 @@
 rm -rf build &&
 pnpm run build &&
-./coscli sync  -r build cos://blog-1300155796 &&
+./coscli cp  -r build cos://blog-1300155796 &&
 echo "https://blog-1300155796.cos-website.ap-beijing.myqcloud.com/"
+
+
+
+
+
+
+
+
+

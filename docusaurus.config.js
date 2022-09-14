@@ -28,6 +28,9 @@ const config = {
   },
   plugins: ['@docusaurus/theme-live-codeblock'],
   themeConfig: {
+    prism: {
+      additionalLanguages: ['ruby'],
+    },
     liveCodeBlock: {
       /**
        * 实时效果显示的位置，在编辑器上方还是下方。

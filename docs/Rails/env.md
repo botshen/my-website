@@ -1,6 +1,48 @@
 # Rails 环境搭建
 
-## 创建项目
-``` 
-$ rails new <project_name>
+## 初始化目录
+docker 环境 https://github.com/FrankFang/oh-my-env-1
+
+``` bash
+gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+
+bundle config mirror.https://rubygems.org https://gems.ruby-china.com
+
+gem install rails -v 7.0.2.3
+
+pacman -S postgresql-libs
+
+cd ~/repos
+// 只要 api 模式 数据库就是 postgresql 跳过自带的测试
+rails new --api --database=postgresql --skip-test mangosteen-1
+
+code mangosteen-1
+
+// 新建终端
+bundle exe rails server
+// 缩写
+bin/rails s
+// 需要关闭 server 请按 Ctrl + C
+
+```
+
+创建数据库
+```
+一行命令
+docker run -d      --name db-for-mangosteen      -e POSTGRES_USER=mangosteen      -e POSTGRES_PASSWORD=123456      -e POSTGRES_DB=mangosteen_dev      -e PGDATA=/var/lib/postgresql/data/pgdata      -v mangosteen-data:/var/lib/postgresql/data      --network=network1      postgres:14
+
+```
+
+连接数据库
+```
+修改 database.yml
+development:
+  <<: *default
+  database: mangosteen_dev
+  username: mangosteen
+  password: 123456
+  host: db-for-mangosteen
+运行 server
+bundle exe rails s
+
 ```
