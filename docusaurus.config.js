@@ -6,9 +6,9 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Rick's Blog",
+  title: "Lihua's Blog",
   tagline: 'Ruby is cool',
-  url: 'https://fastidious-meerkat-ec68b5.netlify.app/',
+  url: 'https://shenxin.site/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
