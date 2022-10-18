@@ -55,5 +55,7 @@ RSpec.describe User, type: :model do
     expect(user.email).to eq("shenxin@qq.com")
   end
 end
-
 ```
+## 如何测试请求
+使用 Rspec 的 request test 功能
+执行测试文件生成代码 `bin/rails generate rspec:request items`
