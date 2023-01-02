@@ -48,7 +48,7 @@ end
 
 ```ruby
 
-even_numbers = [1,2,3,4,5,6].select do |number| 
+even_numbers = [1,2,3,4,5,6].select do |number|
   even_numbers << n if number.even?
 end
 ```
@@ -71,7 +71,7 @@ even_numbers = [1,2,3,4,5,6].select{|number| number.even?}
 ### 版本 5
 
 - & 表示当前的对象
-  
+
 ```ruby
 even_numbers = [1,2,3,4,5,6].select(&:even?)
 ```
@@ -79,7 +79,7 @@ even_numbers = [1,2,3,4,5,6].select(&:even?)
 ### 版本 6
 
 - & 表示当前的对象
-  
+
 ```ruby
 even_numbers = [1..6].select(&:even?)
 ```
